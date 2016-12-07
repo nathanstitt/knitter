@@ -1,0 +1,54 @@
+require 'mixlib/shellout'
+
+module Knitter
+    class Process
+        extend Forwardable
+        def_delegators :@sh, :stderr, :stdout
+
+        attr_reader :directory
+
+        def initialize(directory)
+            @directory = Pathname.new(directory)
+        end
+
+        def init
+            execute('init', '--yes')
+        end
+
+        def ok?
+            @sh && @sh.status.exitstatus == 0
+        end
+
+        def add(package)
+            name = package.name
+            unless package.version.latest?
+                name << '@' << package.version.to_s
+            end
+            execute(
+                *['add', name, package_save_as_flag(package)].compact
+            )
+        end
+
+        def package_file
+            @directory.join "package.json"
+        end
+
+        protected
+
+        def package_save_as_flag(package)
+            case package.dependency_type
+            when :peer        then '--peer'
+            when :optional    then '--optional'
+            when :development then '--dev'
+            end
+        end
+
+        def execute(cmd, *args)
+            @sh = Mixlib::ShellOut.new(
+                "yarn", cmd, *args,
+                cwd: @directory.to_s
+            )
+            @sh.run_command
+        end
+    end
+end
