@@ -1,8 +1,17 @@
 require 'mixlib/shellout'
+require 'forwardable'
 
 module Knitter
-    class Process
-        extend Forwardable
+    class Yarn
+
+        PACKAGE_AREAS = {
+            dev: 'devDependencies',
+            peer: 'peerDependencies',
+            optional: 'optionalDependencies',
+            dependencies: 'dependencies'
+        }
+
+        extend ::Forwardable
         def_delegators :@sh, :stderr, :stdout
 
         attr_reader :directory
@@ -31,6 +40,28 @@ module Knitter
 
         def package_file
             @directory.join "package.json"
+        end
+
+        def packages
+            json = package_file_contents
+            Enumerator.new do | enum |
+                PACKAGE_AREAS.each do | type, area |
+                    (json[area] || []).each do | package, version |
+                        package = Package.new(package, yarn: self)
+                        package.version = version
+                        package.dependency_type = type
+                        enum << package
+                    end
+                end
+            end
+        end
+
+        def package_file_contents
+            JSON.parse(package_file.read)
+        end
+
+        def valid?
+            package_file_contents
         end
 
         protected
