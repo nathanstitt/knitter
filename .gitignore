@@ -7,3 +7,5 @@
 /pkg/
 /spec/reports/
 /tmp/
+test/fixtures/node_modules/
+test/fixtures/yarn-error.log

@@ -1,0 +1,30 @@
+{
+  "name": "knitter-test-fixture",
+  "version": "0.0.0",
+  "description": "Test Package for Knitter",
+  "main": "index.js",
+  "repository": "https://github.com/nathanstitt/knitter.git",
+  "author": "Nathan Stitt <https://github.com/nathanstitt>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nathanstitt/knitter/issues"
+  },
+  "homepage": "https://github.com/nathanstitt/knitter",
+  "dependencies": {
+    "axios": "0.15.3",
+    "classnames": "2.2.5",
+    "underscore": "1.8.3"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "3.2.0",
+    "when": "3.7.7"
+  },
+  "peerDependencies": {
+    "qs": "6.3.0",
+    "mime-types": "2.1.13"
+  },
+  "optionalDependencies": {
+    "axios": "0.15.3"
+  }
+}
