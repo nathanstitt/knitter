@@ -23,13 +23,13 @@ Or install it yourself as:
 ```ruby
 require 'knitter'
 
-process = NPMWrapper::Process.new('my-npm-project-directory')
+yarn = Knitter::Yarn.new('my-npm-project-directory')
 
-# create a bare-bones 'package.json' file
-process.init
+# create a bare-bones 'package.json' and 'yarn.lock' file
+yarn.init
 
-# test with the infamous left-pad.  Process is optional, it will default to Dir.pwd
-package = NPMWrapper::Package.new('left-pad', process: process)
+# test with the infamous left-pad.
+package = Knitter::Package.new('left-pad', yarn: yarn)
 
 package.installed? # false
 
