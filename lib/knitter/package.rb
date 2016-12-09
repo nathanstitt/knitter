@@ -7,11 +7,11 @@ module Knitter
 
         attr_reader :name, :dependency_type
 
-        attr_writer :process
+        attr_writer :yarn
 
-        def initialize(name, process: nil)
+        def initialize(name, yarn: nil)
             @name = name
-            @process = process
+            @yarn = yarn
         end
 
         def version
@@ -27,23 +27,15 @@ module Knitter
         end
 
         def dependency_type
-            @dependency_type || (
-                case config.area
-                when 'optionalDependencies' then :optional
-                when 'devDependencies'      then :development
-                when 'peerDependencies'     then :peer
-                else
-                    :dependencies
-                end
-            )
+            @dependency_type ||= Yarn::PACKAGE_AREAS.invert[config.area]
         end
 
         def installed?
-            !config.nil?
+            !config.area.nil?
         end
 
         def add
-            process.add(self)
+            yarn.add(self)
             @config = nil
         end
 
@@ -51,25 +43,17 @@ module Knitter
             @config ||= read_config
         end
 
-        def valid?
-            process.package_file.exist? && config
-        end
-
         protected
 
-        def parse_package_file
-            JSON.parse(process.package_file.read)
-        end
-
-        def process
-            @process ||= Process.new(Dir.pwd)
+        def yarn
+            @yarn ||= Yarn.new(Dir.pwd)
         end
 
         def read_config
             config = PackageConfig.new
-            package = parse_package_file
+            json = yarn.package_file_contents
             %w{dependencies devDependencies optionalDependencies}.each do | part_name |
-                part = package[part_name]
+                part = json[part_name]
                 next unless part && (version = part[@name])
                 config.area = part_name
                 config.version = version
