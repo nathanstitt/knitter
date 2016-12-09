@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
     spec.description   = %q{Wraps the Javascript "yarn" command; query and install Javascript packages from Ruby.  Reads the package.json file directly to detect packages that are installed, and shells out to `yarn` to initialize and install packages.}
     spec.homepage      = "https://github.com/nathanstitt/knitter"
     spec.license       = "MIT"
-.
+
     if spec.respond_to?(:metadata)
         spec.metadata['allowed_push_host'] = "https://rubygems.org"
     else
