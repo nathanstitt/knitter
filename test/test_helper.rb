@@ -22,7 +22,6 @@ end
 
 class MiniTest::Test
 
-
     include HelperMethods
     alias_method :run_without_around, :run
     def run(*args)
