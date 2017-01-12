@@ -27,7 +27,7 @@ class TestYarn < MiniTest::Test
         with_package do |yarn|
             assert_equal 9, yarn.packages.to_a.length
             yarn.add(left_pad)
-            assert yarn.ok?
+            assert yarn.ok?, "Yarn command did not succeed: #{yarn.stdout}"
             assert_includes(yarn.stdout, "success")
             assert_equal 10, yarn.packages.to_a.length
         end
