@@ -1,5 +1,7 @@
 # Knitter
 
+[![Build Status](https://travis-ci.org/nathanstitt/knitter.svg?branch=master)](https://travis-ci.org/nathanstitt/knitter)
+
 A lightweight Ruby Gem wrapper around the node package manager.  Allows checking installation status of and installing packages.
 
 ## Installation
