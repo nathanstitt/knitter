@@ -1,8 +1,16 @@
 sudo: false
-language: ruby
-cache: bundler
+language:
+  ruby: true
+  node_js: true
+cache:
+  bundler: true
+  yarn: true
+  directories:
+    - node_modules
 rvm:
-  - 2.2
-  - 2.4
+  - 2.2.5
+  - 2.4.0
+before_script:
+  - npm install -g yarn
 script:
   - bundle exec rake test
