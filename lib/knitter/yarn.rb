@@ -61,7 +61,7 @@ module Knitter
         end
 
         def valid?
-            package_file_contents
+            package_file.exist? && package_file_contents
         end
 
         protected
