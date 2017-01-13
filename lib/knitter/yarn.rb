@@ -4,6 +4,9 @@ require 'forwardable'
 module Knitter
     class Yarn
 
+        class CommandExecutionError < RuntimeError
+        end
+
         PACKAGE_AREAS = {
             dev: 'devDependencies',
             peer: 'peerDependencies',
@@ -80,6 +83,9 @@ module Knitter
                 cwd: @directory.to_s
             )
             @sh.run_command
+            unless 0 == @sh.exitstatus
+                raise CommandExecutionError.new(@sh.stderr)
+            end
         end
     end
 end

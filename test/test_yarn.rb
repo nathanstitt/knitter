@@ -43,4 +43,15 @@ class TestYarn < MiniTest::Test
         end
     end
 
+    def test_invalid_command_exception
+        with_package do |yarn|
+            exp = assert_raises(
+                Knitter::Yarn::CommandExecutionError
+            ) do
+                yarn.send(:execute, 'foo')
+            end
+            assert_match(/\"foo\" not found./, exp.message)
+        end
+    end
+
 end
