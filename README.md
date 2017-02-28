@@ -35,7 +35,7 @@ package = Knitter::Package.new('left-pad', yarn: yarn)
 
 package.installed? # false
 
-package.install
+package.add
 
 package.installed? # true
 ```
