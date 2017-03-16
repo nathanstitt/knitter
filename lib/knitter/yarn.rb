@@ -1,5 +1,6 @@
 require 'mixlib/shellout'
 require 'forwardable'
+require 'pathname'
 
 module Knitter
     class Yarn
@@ -29,6 +30,10 @@ module Knitter
 
         def ok?
             @sh && @sh.status.exitstatus == 0
+        end
+
+        def install
+            execute('install')
         end
 
         def add(package)
